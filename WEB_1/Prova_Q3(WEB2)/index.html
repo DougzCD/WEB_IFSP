@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" href="estilos.css" media="screen" />
+    <script src='main.js' defer></script>
+</head>
+<body>
+    <div id="cadastro">
+        <h1 id="screenlog">Cadastro</h1>
+        <form>
+
+            <label for="CPF">CPF: </label>
+            <input type="number" id="cpf">
+
+            <label for="name">Name: </label>
+            <input type="text" id="name">
+
+            <label for="nasc">Nascimento: </label>
+            <input type="date" id="nasc">
+
+            <h1 id="screenlog">Conta</h1>
+
+                <label for="contac">Corrente</label>
+                <input type="checkbox" id="contac" name="contac" value="Corrente">
+                <label for="contap"> Poupança</label>
+                <input type="checkbox" id="contap" name="contap" value="Poupança">
+                
+                <label for="saldo">Saldo: </label>
+                <input type="number" id="saldo">
+
+            <input type="submit" id="btn">
+
+        </form>
+    </div>
+    <div id="lista">
+        <h1>Lista de clientes</h1>
+
+        <ul id="lista">
+
+        </ul>
+        
+    </div>
+    
+</body>
+</html>

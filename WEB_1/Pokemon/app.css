@@ -1,0 +1,11 @@
+
+/*Fazendo o elemento ser apresentado inline e centralizado o texto*/
+.pokemon {
+    display: inline-block;
+    text-align: center;
+}
+
+/*Fazendo o elemento ser apresentado em bloco*/
+.pokemon img {
+    display: block;
+}

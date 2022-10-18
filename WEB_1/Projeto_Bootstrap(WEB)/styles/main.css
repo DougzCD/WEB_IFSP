@@ -1,0 +1,46 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    color:  white;
+}
+
+html,body{
+    background-color: #A6927B;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.bar{
+    background: #545951;
+}
+
+.navbar{
+    width: 100%;
+    height: 70px;
+    background: #545951;
+}
+
+.footer{
+
+    background: #545951;
+    position: absolute;
+    margin-bottom: 0px;
+}
+
+.main{
+    border-radius: 25px;
+    background: #292929;
+    width: 100%;
+    height: 100%;
+    margin-top: inherit;
+}
+
+.card{
+    background: #F2E4C9 ;
+    border-radius: 25px ;
+}
+.card text{
+    background: #828C7B ;
+}

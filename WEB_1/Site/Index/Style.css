@@ -1,0 +1,234 @@
+
+body{
+    background: #000000 url("../Index/Imgs/Risk_of_Rain_2_Background.jpg") no-repeat fixed center top;
+    margin: 0px;
+}
+
+[class*="searchbar"]{
+    position: fixed;
+    width: 100%;
+    height: 10%;
+}
+
+[class*="main page"]{
+    background: #000000 ;
+    opacity: 0.5;
+}
+
+[class*="main option"]{
+    background: #000000 ;
+    opacity: 2;
+}
+
+button{
+    background-color: rgb(30, 30, 30);
+}
+
+h1,h2,p{
+    color: rgb(221, 221, 221);
+    margin: 0px;
+}
+
+div{
+    
+    box-sizing: border-box;
+
+}
+
+img{
+    max-width: 100%;
+    height: auto;
+    opacity: 1;
+}
+
+[class*="col-"]{
+    
+    width: 100%;
+    float: left;
+    padding: 5px;
+    border: 1px solid red;
+}
+
+.row{
+    border: 1px solid blue;
+    padding: 3px;
+    margin: 1px;
+}
+
+.row::after{
+    content: "";
+    clear: both;
+    display: table;
+}
+/*
+.main-container {
+    margin: 0 auto 48px;
+    max-width: 90%;
+    -webkit-transition: width .3s,max-width .3s;
+    transition: width .3s,max-width .3s;
+    width: 85%;
+}
+*/
+@media only screen and (max-width:600px){
+
+    *{
+        font-size: smaller;
+    }
+
+    .col-a-1{
+        width: 8.33%;
+    }
+
+    .col-a-2{
+        width: 16.66%;
+    }
+
+    .col-a-3{
+        width: 25%;
+    }
+
+    .col-a-4{
+        width: 33.33%;
+    }
+
+    .col-a-5{
+        width: 41.66%;
+    }
+
+    .col-a-6{
+        width: 50%;
+    }
+
+    .col-a-7{
+        width: 58.33%;
+    }
+
+    .col-a-8{
+        width: 66.66%;
+    }
+
+    .col-a-9{
+        width: 75%;
+    }
+
+    .col-a-10{
+        width: 83.33%;
+    }
+
+    .col-a-11{
+        width: 91.66%;
+    }
+
+    .col-a-12{
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width:600px){
+
+    *{
+        font-size: larger;
+    }
+
+    .col-b-1{
+        width: 8.33%;
+    }
+
+    .col-b-2{
+        width: 16.66%;
+    }
+
+    .col-b-3{
+        width: 25%;
+    }
+
+    .col-b-4{
+        width: 33.33%;
+    }
+
+    .col-b-5{
+        width: 41.66%;
+    }
+
+    .col-b-6{
+        width: 50%;
+    }
+
+    .col-b-7{
+        width: 58.33%;
+    }
+
+    .col-b-8{
+        width: 66.66%;
+    }
+
+    .col-b-9{
+        width: 75%;
+    }
+
+    .col-b-10{
+        width: 83.33%;
+    }
+
+    .col-b-11{
+        width: 91.66%;
+    }
+
+    .col-b-12{
+        width: 100%;
+    }
+    
+}
+
+@media only screen and (min-width:1000px){
+
+    .col-c-1{
+        width: 8.33%;
+    }
+
+    .col-c-2{
+        width: 16.66%;
+    }
+
+    .col-c-3{
+        width: 25%;
+    }
+
+    .col-c-4{
+        width: 33.33%;
+    }
+
+    .col-c-5{
+        width: 41.66%;
+    }
+
+    .col-c-6{
+        width: 50%;
+    }
+
+    .col-c-7{
+        width: 58.33%;
+    }
+
+    .col-c-8{
+        width: 66.66%;
+    }
+
+    .col-c-9{
+        width: 75%;
+    }
+
+    .col-c-10{
+        width: 83.33%;
+    }
+
+    .col-c-11{
+        width: 91.66%;
+    }
+
+    .col-c-12{
+        width: 100%;
+    }
+
+}
+
