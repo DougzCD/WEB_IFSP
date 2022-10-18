@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+   
+<%- include('partials/navbar') %>
+
+        <h1>Comentario</h1>
+
+        <form action ="/comentario" method="POST">
+
+            <label>Usuário:</label>
+            <input type="text" name="usuario"><br>
+
+            <label>Comentario</label>
+            <input type="text" name="comentario"><br>
+
+            <button>Enviar</button>
+            
+        </form>
+
+        <form  action="/comentario"  method="DELETE">
+            <label>ID</label>
+            <input id="id" type="text" name="id"/>
+            <input type="submit"  value="REMOVER"/>
+        </form>
+
+<%- include('partials/footer') %>

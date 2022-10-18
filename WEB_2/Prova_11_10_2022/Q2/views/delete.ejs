@@ -1,0 +1,13 @@
+<%- include('partials/header') %>
+   
+<%- include('partials/navbar') %>
+
+        <h1>Fornecedor a ser Deletado</h1>
+
+        <form  action="/fornecedor"  method="DELETE">
+            <label>ID</label>
+            <input id="id" type="text" name="id"/>
+            <input type="submit"  value="REMOVER"/>
+        </form>
+
+<%- include('partials/footer') %>

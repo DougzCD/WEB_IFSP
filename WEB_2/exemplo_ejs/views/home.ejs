@@ -1,0 +1,18 @@
+<%- include('partials/header') %>
+   
+<%- include('partials/navbar') %>
+    
+    <h1>Home</h1>
+
+
+
+        <h2> Número aleatório: <%= rand %></h2>
+        <% if (rand % 2 == 0) { %>
+            <h2> O número é par!</h2>
+        <% }else{%> 
+            <h2> O número é ímpar!</h2>
+        <%} %>    
+
+
+
+<%- include('partials/footer') %>

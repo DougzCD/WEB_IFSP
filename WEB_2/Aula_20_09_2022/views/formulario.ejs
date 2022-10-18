@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+   
+<%- include('partials/navbar') %>
+
+        <h1>Formulario para as Informações do retangulo:</h1>
+
+        <form action ="/resposta" method="POST">
+            <label>Base:</label>
+            <input type="number" name="base"><br>
+            <label>Altura:</label>
+            <input type="number" name="altura"><br>
+            <label>Calcular:("A" para Area, "P" para Perimetro)</label>
+            <input type="text" name="calculo"><br>
+            <button>Enviar</button>
+        </form>
+
+<%- include('partials/footer') %>

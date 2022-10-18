@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+    <%- include('partials/head') %> 
+
+    <body>
+        
+        <%- include('partials/navbar') %> 
+        
+
+        <h1>Home</h1>
+
+        <h1>Numero aleatório <%= num %> </h1>
+
+        <% if(num % 2 == 0){ %>
+            <h2>Este numero é Par!!!</h2>
+        <% } else { %>
+            <h2>Este numero é Impar!!!</h2>
+        <% } %>
+
+    </body>
+</html>
