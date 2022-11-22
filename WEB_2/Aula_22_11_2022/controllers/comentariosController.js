@@ -1,10 +1,12 @@
 const {Router} = require('express');
-const {Comentario} = require('../models');
+const {Comentario, Usuario} = require('../models');
 
 const roteador = Router();
 
 roteador.get('/', async (req, res)=>{
-    const comentarios = await Comentario.findAll();
+    const comentarios = await Comentario.findAll({
+        include:[{model: Usuario}]
+    });
 
     res.status(200).render('index', {comentarios});
 

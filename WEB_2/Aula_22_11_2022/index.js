@@ -2,27 +2,35 @@ const express = require('express');
 
 const app = express();
 
-const comentarios = [
-    {
-        id: 1,
-        usuario: 'Fulano',
-        comentario: 'Comentário do Fulano'
-    },
-    {
-        id: 2,
-        usuario: 'Ciclano',
-        comentario: 'Fulano, seu comentário é muito ruim!'
-    },
-    {
-        id: 3,
-        usuario: 'Beltrano',
-        comentario: 'Só li verdades.'
-    }
-];
+const {comentarios, usuarios} = require('.models')
+
+const umDia = 1000*60*60*24;
+const sessionOptions = {
+    secret: "frasealeatoria",
+    cookie: {maxAge: umDia},
+    resave: false,
+    saveUninitializes: false
+}
+
+app.use(session(sessionOptions))
+
+const secure_pass = (req, res, next)=>{
+    if(req.session.login || 
+        req.path==='/usuario/login'){
+            next();
+        }else{
+            res.redirect('/usuario/login');
+        }
+}
 
 app.use(express.urlencoded({extended:true}));
 
-let ids = 3;
+app.get('/usuario',(req, res)=>{
+    res.status(200).send(usuarios);
+});
+
+app.get(secure_pass)
+
 app.get('/comentario',(req, res)=>{
     res.status(200).send(comentarios);
 });

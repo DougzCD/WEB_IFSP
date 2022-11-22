@@ -14,14 +14,15 @@
         <% for(let comentario of comentarios) { %>
             <li>
                 <%= comentario.comentario %>  
-                - <b><%= comentario.usuario %></b> 
+                - <b><%= comentario.Usuario.nome %></b> 
                 <a href="/comentario/<%=comentario.id%>">editar</a> 
-                <a href='' onclick="apagaMensagem(<%=comentario.id%>)">apagar</a>
+                <a href='' onclick="apagaMensagem( <%= comentario.id %> )">apagar</a>
             </li>
         <% } %>
     </ul>
 
     <a href="/comentario/novo">Novo comentário</a>
+    <a href="/logoff">LogOff</a>
 
 </body>
 </html>
