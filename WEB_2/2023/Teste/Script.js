@@ -5,23 +5,6 @@ const app = express()
 
 //const dados = require('./resources/dados.json');
 
-const dados = [
-    {
-        id: 1,
-        usuario: 'Fulano',
-        comentario: "First!"
-    },
-    {
-        id: 2,
-        usuario: "Ciclano",
-        comentario: "Sei la!"
-    },
-    {
-        id: 3,
-        usuario: "Beltrano",
-        comentario: "preguicinha"
-    }
-]
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
@@ -29,7 +12,6 @@ app.use(express.urlencoded({extended:true}));
 
 //app.use(express.static(path.join(__dirname, 'public')));
 
-let id = 3;
 
 app.get('/',(req,res)=>{
     
