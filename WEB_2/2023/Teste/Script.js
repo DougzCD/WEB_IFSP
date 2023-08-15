@@ -3,7 +3,7 @@ const path = require('path');
 
 const app = express()
 
-//const dados = require('./resources/dados.json');
+const dados = require('./resources/dados.json');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
