@@ -1,31 +1,22 @@
 const express = require('express');
 const app = express()
 
-const porta = 80;
+const porta = 3000;
 
-app.get('/',(req, res)=>{
-    res.send("<h1>Home</h1>");
-})
+const soman = (n) =>{
+    return parseFloat((n*(n+1))/2);
+}
 
-app.get('/:parametro',(req, res)=>{
-    const {parametro} = req.params;
-    res.send(`<h1>${parametro}+</h1>`);
-})
+app.get('/soman/:n',(req, res)=>{
+    const{n} = req.params;
 
-app.get('/Gatos',(req, res)=>{
-    res.send("<h1>Gatos</h1>");
-})
+    console.log(n);
+    console.log(soman(n));
+    console.log(soman);
 
-app.get('/Carros',(req, res)=>{
-    res.send("<h1>Carros</h1>");
-})
+    r = soman(n);
 
-app.get('/Soccer',(req, res)=>{
-    res.send("<h1>Soccer</h1>");
-})
-
-app.get('*',(req, res)=>{
-    res.send("<h1>Sei la nem existe</h1>");
+    res.send(`<h1>${r}</h1>`);
 })
 
 app.use((req,res)=>{
