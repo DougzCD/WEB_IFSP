@@ -1,75 +1,97 @@
 const express = require('express');
 const path = require('path');
-
 const app = express()
 
-const dados = require('./resources/dados.json');
+const porta = 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
-
 app.use(express.urlencoded({extended:true}));
 
-//app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.get('/',(req,res)=>{
+    const num = Math.floor(Math.random()*10);
+    res.status(200).render('home', {num});
+});
+
+app.get('/results',(req,res)=>{
+
+    const search = req.query.search;
+
+    console.log(search);
+
+    if(!search){
+        let resp = `Pesquisa invalida`;
+        res.status(200).render('results', {resp});
+    }
+    else{
+
+        
+        let resp = `Apresentando resultados de ${search}`
+        res.status(200).render('results', {resp});
+    }
     
-    res.status(200).render('home');
 })
 
-app.post('/',(req,res)=>{
+app.post('/results',(req,res)=>{
 
-    const{usuario, comentario} =  req.body;
+    const {search} =  req.body;
 
-    id++
-
-    dados.push({id, usuario, comentario});
-
-    res.status(201).send({id, usuario, comentario})
-
-})
-
-app.get('/comentario',(req,res)=>{
     
-    res.status(201).send(dados);
-})
-
-app.get('/comentario/:id',(req,res)=>{
-
-    const {id} = req.params;
-
-    res.status(201).send(dados[id]);
-})
-
-app.get('/comentario/:id/comentario',(req,res)=>{
-
-    const {id} = req.params;
-
-    res.status(201).send(dados[id].comentario);
-})
-
-app.post('/comentario',(req,res)=>{
-
-    const{usuario, comentario} =  req.body;
-
-    id++
-
-    dados.push({id, usuario, comentario});
-
-    res.status(201).send({id, usuario, comentario})
-
-    res.status(201).send(dados);
+    res.status(201).redirect(`/results?search=${search}`);
 
 })
 
-app.delete('/comentario/:id',(req,res)=>{
-    console.log(req.params);
-    const {id} = req.params;
-    const u = dados[id].usuario;
-    console.log(id);
-    dados.splice(-id, 1);
-    res.send("comentario " + id + " de " + u + " foi removido!");
+app.get('/temper',(req,res)=>{
+
+    const search = req.query.search;
+    const type = search.slice(-1);
+    const temp = search.substring(0,type);
+    let resp = 0;
+    
+    console.log(search);
+    console.log(search.lastIndexOf(""));
+    console.log(search.slice(-1));
+    
+
+    if(!search){
+        let resp = `valores invalidos`;
+        res.status(200).render('temper', {resp});
+    }
+    else{
+
+        switch (type) {
+            case "k":
+                
+                resp = temp + 274.15;
+
+                res.status(200).render('temper', {resp});
+
+                break;
+
+            case "f":
+                
+                resp = ((temp*9)/5)+32;
+
+                res.status(200).render('temper', {resp});
+
+                break;
+        
+            default:
+                break;
+        }
+        
+        
+    }
+    
+})
+
+app.post('/temper',(req,res)=>{
+
+    const {temper, type} =  req.body;
+
+    
+    res.status(201).redirect(`/temper?search=${temper}`+`${type}`);
+
 })
 
 /*
@@ -88,6 +110,6 @@ app.delete('/comentario/:id',(req,res)=>{
     DELETE  /comentario/:id             - DELETE/DESTROY
 
 */
-app.listen(80, ()=>{
-    console.log('Working on port 80!')
+app.listen(porta, ()=>{
+    console.log('Working on port'+ porta +'!')
 });
