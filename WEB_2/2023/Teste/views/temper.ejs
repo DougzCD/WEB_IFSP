@@ -4,10 +4,10 @@
 
         <h1>Conversor de Temperatura</h1>
 
-        <form action ="/temper" method="POST">
+        <form action ="/temper" method="GET">
 
-            <label for="temper">Temperatura:</label>
-            <input type="number" name="temper" required>
+            <label for="temp">Temperatura:</label>
+            <input type="number" name="temp" required>
             <br>
 
             <label for="type">Tipo:</label>
@@ -19,7 +19,8 @@
         </form>
 
         <div id="results">
-            <h2><%=resp%></h2>
+            <h2><%= temp %></h2>
+            <h2><%= type %></h2>
         </div>
 
 <%- include('partials/footer') %>

@@ -9,88 +9,96 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(express.urlencoded({extended:true}));
 
 app.get('/',(req,res)=>{
-    const num = Math.floor(Math.random()*10);
-    res.status(200).render('home', {num});
+    res.status(200).render('home');
 });
 
-app.get('/results',(req,res)=>{
+app.get('/number',(req,res)=>{
+    const num = Math.floor(Math.random()*10);
+    res.status(200).render('number', {num});
+});
 
-    const search = req.query.search;
+app.get('/search',(req,res)=>{
+
+    let {search} = req.query;
 
     console.log(search);
 
     if(!search){
-        let resp = `Pesquisa invalida`;
-        res.status(200).render('results', {resp});
-    }
-    else{
+        earch = `Pesquisa invalida`;
+        res.status(200).render('search', {search});
+    }else{
 
         
-        let resp = `Apresentando resultados de ${search}`
-        res.status(200).render('results', {resp});
+        search = `Apresentando resultados de ${search}`
+        res.status(200).render('search', {search});
     }
     
-})
-
-app.post('/results',(req,res)=>{
-
-    const {search} =  req.body;
-
-    
-    res.status(201).redirect(`/results?search=${search}`);
-
 })
 
 app.get('/temper',(req,res)=>{
 
-    const search = req.query.search;
-    const type = search.slice(-1);
-    const temp = search.substring(0,type);
-    let resp = 0;
+    let {type, temp} = req.query;
     
-    console.log(search);
-    console.log(search.lastIndexOf(""));
-    console.log(search.slice(-1));
+    console.log(type);
+    console.log(temp);
     
 
-    if(!search){
-        let resp = `valores invalidos`;
-        res.status(200).render('temper', {resp});
-    }
-    else{
+    if(!temp || isNaN(temp)){
+        type = `Valores Invalidos`;
+        res.status(200).render('temper', {temp, type});
+    }else{
 
         switch (type) {
-            case "k":
+
+            case 'k':
                 
-                resp = temp + 274.15;
-
-                res.status(200).render('temper', {resp});
-
+                temp = parseFloat(temp) + 274.15;
                 break;
 
-            case "f":
+            case 'f':
                 
-                resp = ((temp*9)/5)+32;
-
-                res.status(200).render('temper', {resp});
-
+                temp = (parseFloat(temp) * 9) / 5 + 32;
                 break;
         
             default:
+
+                type = 'Tipo de temperatura desconhecido';
                 break;
         }
-        
-        
+
+        res.status(200).render('temper', { temp, type });
+
     }
     
 })
 
-app.post('/temper',(req,res)=>{
+app.get('/estoq',(req,res)=>{
 
-    const {temper, type} =  req.body;
+    let {produto, quant} =  req.query;
 
-    
-    res.status(201).redirect(`/temper?search=${temper}`+`${type}`);
+    if (!produto) {
+        produto = `Produto não especificado!`
+    }
+    if (!quant) {
+        quant = `Quantidade não especificada!`
+    }
+
+    res.status(200).render('estoq', {produto, quant});
+
+})
+
+app.post('/estoq',(req,res)=>{
+
+    let {produto, quant} =  req.body;
+
+    if (!produto) {
+        produto = `Produto não especificado!`
+    }
+    if (!quant) {
+        quant = `Quantidade não especificada!`
+    }
+
+    res.status(200).render('estoq', {produto, quant});
 
 })
 
