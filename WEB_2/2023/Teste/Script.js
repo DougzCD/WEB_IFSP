@@ -26,25 +26,13 @@ app.get('/search',(req,res)=>{
     console.log(search);
 
     if(!search){
-        earch = `Pesquisa invalida`;
+        search = `Pesquisa invalida`;
         res.status(200).render('search', {search});
     }else{
 
-        
         search = `Apresentando resultados de ${search}`
         res.status(200).render('search', {search});
     }
-    
-})
-
-app.get('/r/:subreddit',(req,res)=>{
-    const {subreddit} = req.params;
-    const dado = dados[subreddit];
-
-    if(dado)
-        res.render('subreddit', {...dado});
-    else
-        res.send('<h1>Ooops! Página não encontrada</h1>');
     
 })
 
@@ -113,6 +101,47 @@ app.post('/estoq',(req,res)=>{
 
     res.status(200).render('estoq', {produto, quant});
 
+})
+
+app.get('/subreddit',(req,res)=>{
+    
+    let {subreddit} = req.query;
+
+    console.log(subreddit);
+
+    if(!subreddit){
+        
+        res.status(200).render('subreddit', {subreddit});
+        
+    }else{
+        
+        res.status(200).redirect(`/r/${subreddit}`);
+    }
+    
+})
+
+app.get('/r/:subreddit',(req,res)=>{
+    let {subreddit} = req.params;
+
+    console.log(subreddit);
+
+    let dado = dados[subreddit];
+
+    if(dado)
+        res.status(200).render(`r`, {dado, ...dado});
+    else
+        res.status(200).redirect('/erro');
+    
+})
+
+app.get('*:pagina',(req,res)=>{
+
+    let {pagina} = req.params;
+
+    console.log(pagina);
+       
+    res.status(200).render('erro', {pagina});
+       
 })
 
 /*

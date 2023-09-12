@@ -1,4 +1,10 @@
 {
+    "": {
+        "name": "",
+        "subscribers": "",
+        "description": "",
+        "posts": []
+    },
     "soccer": {
         "name": "Soccer",
         "subscribers": 800000,
