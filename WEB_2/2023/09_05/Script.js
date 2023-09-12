@@ -3,7 +3,6 @@ const path = require('path');
 const app = express()
 
 const porta = 3000;
-const dados = require('./resources/dados.json');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -34,17 +33,6 @@ app.get('/search',(req,res)=>{
         search = `Apresentando resultados de ${search}`
         res.status(200).render('search', {search});
     }
-    
-})
-
-app.get('/r/:subreddit',(req,res)=>{
-    const {subreddit} = req.params;
-    const dado = dados[subreddit];
-
-    if(dado)
-        res.render('subreddit', {...dado});
-    else
-        res.send('<h1>Ooops! Página não encontrada</h1>');
     
 })
 
