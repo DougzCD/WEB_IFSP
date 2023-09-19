@@ -160,7 +160,7 @@ app.get('/pessoa/:id',(req,res)=>{
 
     console.log(id);
 
-    let pessoas = pessoas[id];
+    let pessoas = pessoas.find(pessoa => pessoa.id === parseInt(id));
 
     if(pessoas)
         res.status(200).render(`pessoa`, {pessoas});
