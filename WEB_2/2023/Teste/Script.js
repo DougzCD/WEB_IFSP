@@ -1,9 +1,11 @@
 const express = require('express');
 const path = require('path');
 const app = express()
+const fs = require('fs');
 
 const porta = 3000;
 const dados = require('./resources/dados.json');
+const pessoas = require('./resources/pessoas.json');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -134,6 +136,100 @@ app.get('/r/:subreddit',(req,res)=>{
     
 })
 
+app.get('/pessoa',(req,res)=>{
+
+    let {id} = req.query;
+
+    console.log(id);
+
+    if (id) {
+        res.status(200).redirect(`/pessoa/${id}`);
+    }else{
+
+        if(pessoas)
+            res.status(200).render('pessoa', {pessoas});
+        else
+            res.status(200).redirect('/erro');
+    }
+
+})
+
+app.get('/pessoa/:id',(req,res)=>{
+
+    let {id} = req.params;
+
+    console.log(id);
+
+    let pessoas = pessoas[id];
+
+    if(pessoas)
+        res.status(200).render(`pessoa`, {pessoas});
+    else
+        res.status(200).redirect('/erro');
+
+})
+
+app.post('/pessoa',(req,res)=>{
+
+    const{nome, nascimento} =  req.body;
+
+    let newID = pessoas.length + 1;
+
+    let novaPessoa = {
+        id: newID,
+        nome: nome,
+        nascimento: nascimento
+    };
+
+    fs.readFile('WEB_2/2023/TESTE/resources/pessoas.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Erro ao ler o arquivo JSON");
+            return;
+        }
+
+        let pessoas = JSON.parse(data); // Parse JSON para um objeto JavaScript
+
+        // Adicione a nova pessoa ao array de pessoas
+        pessoas.push(novaPessoa);
+
+        // Escreva os dados atualizados de volta para o arquivo JSON
+        fs.writeFile('WEB_2/2023/TESTE/resources/pessoas.json', JSON.stringify(pessoas, null, 2), 'utf8', (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send("Erro ao escrever no arquivo JSON");
+                return;
+            }
+        });
+    });
+
+    res.status(200).render(`pessoa`, {pessoas});
+
+})
+
+app.delete('/pessoa/:id',(req,res)=>{
+
+    console.log(req.params);
+
+    const {id} = req.params;
+
+    if (isNaN(id)) {
+        res.status(400).send("ID inválido");
+        return;
+    }
+
+    const idNumero = parseInt(id);
+
+    if (idNumero < 0 || idNumero >= pessoas.length) {
+        res.status(404).send("Pessoa não encontrada");
+        return;
+    }
+
+    const pessoaRemovida = pessoas.splice(idNumero, 1)[0];
+
+    res.status(200).send(`Pessoa com ID ${idNumero} e nome ${pessoaRemovida.nome} foi removida!`);
+})
+
 app.get('*:pagina',(req,res)=>{
 
     let {pagina} = req.params;
@@ -154,7 +250,7 @@ app.get('*:pagina',(req,res)=>{
 
     GET     /comentario                 - READ
     GET     /comentario/:id             - READ
-    GET     /comentario/:id/comentario  -READ
+    GET     /comentario/:id/comentario  - READ
     POST    /comentario                 - CREATE
     PATCH   /comentario/:id             - UPDATE
     DELETE  /comentario/:id             - DELETE/DESTROY
