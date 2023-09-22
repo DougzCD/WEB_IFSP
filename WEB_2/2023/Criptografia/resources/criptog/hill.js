@@ -94,17 +94,7 @@ function multiplicativeInverse(number, modulo) {
     }
     throw new Error(`O inverso multiplicativo não existe para ${number} (módulo ${modulo}).`);
 }
-  
-  // Exemplo de uso
-const keyMatrix = [[6, 24, 1], [13, 16, 10], [20, 17, 15]]; // Substitua pela sua própria matriz chave
-const textoOriginal = "hello"; // Substitua pelo seu próprio texto original
-  
-const textoCriptografado = encryptHill(textoOriginal, keyMatrix);
-console.log("Texto criptografado:", textoCriptografado);
-  
-const textoDescriptografado = decryptHill(textoCriptografado, keyMatrix);
-console.log("Texto descriptografado:", textoDescriptografado);
-  
+
 module.exports = {
     encryptHill,
     decryptHill
