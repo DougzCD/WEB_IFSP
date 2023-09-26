@@ -7,6 +7,8 @@
         <div id="pessoas">
 
             <% if (!pessoas) { %>
+            
+              <p>Não há pessoas para mostrar.</p>
               
             <%} else { %>
         
@@ -15,6 +17,17 @@
               <% for(pessoa of pessoas) { %>
                 <article>
                   <p><%= pessoa.id %> - <%= pessoa.nome %> - <%= pessoa.nascimento %> </p>
+
+                  <form action="/pessoa/<%= pessoa.id %>" method="PATCH">
+                    <label for="nome">Nome:</label>
+                    <input type="text" name="nome" required value="<%= pessoa.nome %>"><br>
+        
+                    <label for="nascimento">Nascimento:</label>
+                    <input type="date" name="nascimento" required value="<%= pessoa.nascimento %>"><br>
+        
+                    <button type="submit">Atualizar</button>
+                </form>
+                
                 </article>
               <% } %>
             <% } %>
@@ -42,7 +55,17 @@
             
         </form>
 
-        <form  action="/pessoa"  method="POST">
+        <form action="/pessoa/<%= pessoa.id %>" method="PATCH">
+          <label for="nome">Nome:</label>
+          <input type="text" name="nome" required value="<%= pessoa.nome %>"><br>
+      
+          <label for="nascimento">Nascimento:</label>
+          <input type="date" name="nascimento" required value="<%= pessoa.nascimento %>"><br>
+      
+          <button type="submit">Atualizar</button>
+        </form>
+
+        <form  action="/pessoa/<%=pessoa.id %>"  method="POST">
             <input type="hidden" name="_method" value="DELETE">
             <label for="id">ID:</label>
             <input type="number" name="id" required><br>

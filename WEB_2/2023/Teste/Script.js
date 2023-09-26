@@ -1,7 +1,7 @@
 const express = require('express');
+const { Sequelize, DataTypes} = require('sequelize');
 const path = require('path');
 const fs = require('fs');
-const bodyParser = require('body-parser');
 const ejs = require('ejs');
 
 const app = express()
@@ -9,10 +9,6 @@ const app = express()
 const porta = 3000;
 const dados = require('./resources/dados.json');
 const pessoas = require('./resources/pessoas.json');
-const { encryptOTP, decryptOTP } = require('./resources/criptog/otp.js');
-const { encryptCaesar, decryptCaesar } = require('./resources/criptog/cesar');
-const { encryptVigenere, decryptVigenere } = require('./resources/criptog/vigenere');
-const { encryptHill, decryptHill } = require('./resources/criptog/hill');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -143,6 +139,23 @@ app.get('/r/:subreddit',(req,res)=>{
     
 })
 
+app.get('/pokemon',(req,res)=>{
+
+    let {pokemon} = req.query;
+
+    console.log(pokemon);
+
+    if(!pokemon){
+        pokemon = `Pesquisa invalida`;
+        res.status(200).render('pokemon', {pokemon});
+    }else{
+
+        pokemon = `Apresentando resultados de ${pokemon}`
+        res.status(200).render('pokemon', {pokemon});
+    }
+    
+})
+
 app.get('/pessoa',(req,res)=>{
 
     let {id} = req.query;
@@ -170,7 +183,7 @@ app.get('/pessoa/:id',(req,res)=>{
     let pessoas = pessoas.find(pessoa => pessoa.id === parseInt(id));
 
     if(pessoas)
-        res.status(200).render(`pessoa`, {pessoas});
+        res.status(200).render(`pessoa`, { pessoas: [pessoa] });
     else
         res.status(200).redirect('/erro');
 
@@ -188,7 +201,7 @@ app.post('/pessoa',(req,res)=>{
         nascimento: nascimento
     };
 
-    fs.readFile('WEB_2/2023/TESTE/resources/pessoas.json', 'utf8', (err, data) => {
+    fs.readFile('./resources/pessoas.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err);
             res.status(500).send("Erro ao ler o arquivo JSON");
@@ -201,7 +214,7 @@ app.post('/pessoa',(req,res)=>{
         pessoas.push(novaPessoa);
 
         // Escreva os dados atualizados de volta para o arquivo JSON
-        fs.writeFile('WEB_2/2023/TESTE/resources/pessoas.json', JSON.stringify(pessoas, null, 2), 'utf8', (err) => {
+        fs.writeFile('./resources/pessoas.json', JSON.stringify(pessoas, null, 2), 'utf8', (err) => {
             if (err) {
                 console.error(err);
                 res.status(500).send("Erro ao escrever no arquivo JSON");
@@ -237,132 +250,30 @@ app.delete('/pessoa/:id',(req,res)=>{
     res.status(200).send(`Pessoa com ID ${idNumero} e nome ${pessoaRemovida.nome} foi removida!`);
 })
 
-app.get('/cripto',(req,res)=>{
+app.patch('/pessoa/:id', (req, res) => {
+    const { id } = req.params;
+    const { nome, nascimento } = req.body;
 
-    let {mensagem} = req.query;
-
-    console.log(mensagem);
-
-    if (mensagem) {
-
-
-        res.status(200).redirect(`/pessoa/${id}`);
-
-
-    }else{
-
-        if(pessoas)
-            res.status(200).render('pessoa', {pessoas});
-        else
-            res.status(200).redirect('/erro');
+    const idNumero = parseInt(id);
+    if (isNaN(idNumero) || idNumero < 0 || idNumero >= pessoas.length) {
+        res.status(404).send("Pessoa não encontrada");
+        return;
     }
 
-})
+    const pessoa = pessoas[idNumero];
+    pessoa.nome = nome;
+    pessoa.nascimento = nascimento;
 
-app.get('/otp', (req, res) => {
-    res.render('otp.ejs', { encryptedText: null, decryptedText: null });
-});
-
-app.post('/otp', (req, res) => {
-    const plaintext = req.body.plaintext;
-    const key = req.body.key;
-
-    try {
-        const encryptedText = encryptOTP(plaintext, key);
-        const decryptedText = decryptOTP(encryptedText, key);
-
-        res.render('otp.ejs', { encryptedText, decryptedText });
-    } catch (error) {
-        res.status(500).send('Erro ao criptografar o texto.');
-    }
-});
-
-app.get('/cesar', (req, res) => {
-    res.render('cesar.ejs', { encryptedText: null, decryptedText: null });
-});
-
-app.post('/cesar/encrypt', (req, res) => {
-    const plaintext = req.body.plaintext;
-    const shift = parseInt(req.body.shift);
-  
-    try {
-      const encryptedText = encryptCaesar(plaintext, shift);
-      res.render('cesar.ejs', { encryptedText, decryptedText: null });
-    } catch (error) {
-      res.status(500).send('Erro ao criptografar o texto.');
-    }
-});
-
-app.post('/cesar/decrypt', (req, res) => {
-    const encryptedText = req.body.encryptedText;
-    const shift = parseInt(req.body.shift);
-  
-    try {
-      const decryptedText = decryptCaesar(encryptedText, shift);
-      res.render('cesar.ejs', { encryptedText, decryptedText });
-    } catch (error) {
-      res.status(500).send('Erro ao descriptografar o texto.');
-    }
-});
-
-app.get('/vigenere', (req, res) => {
-    res.render('vigenere.ejs', { encryptedText: null, decryptedText: null });
-});
-
-app.post('/vigenere/encrypt', (req, res) => {
-    const plaintext = req.body.plaintext;
-    const key = req.body.key;
-  
-    try {
-      const encryptedText = encryptVigenere(plaintext, key);
-      res.render('vigenere.ejs', { encryptedText, decryptedText: null });
-    } catch (error) {
-      res.status(500).send('Erro ao criptografar o texto.');
-    }
-});
-
-app.post('/vigenere/decrypt', (req, res) => {
-    const encryptedText = req.body.encryptedText;
-    const key = req.body.key;
-  
-    try {
-      const decryptedText = decryptVigenere(encryptedText, key);
-      res.render('vigenere.ejs', { encryptedText, decryptedText });
-    } catch (error) {
-      res.status(500).send('Erro ao descriptografar o texto.');
-    }
-});
-
-app.get('/hill', (req, res) => {
-    res.render('hill.ejs', { encryptedText: null, decryptedText: null });
-});
-
-app.post('/hill/encrypt', (req, res) => {
-    const plaintext = req.body.plaintext;
-    const key = req.body.key;
-  
-    try {
-      // Converte a matriz chave fornecida como uma string em uma matriz numérica
-      const keyMatrix = key.split('\n').map(row => row.split(',').map(Number));
-      const encryptedText = encryptHill(plaintext, keyMatrix);
-      res.render('hill.ejs', { encryptedText, decryptedText: null });
-    } catch (error) {
-      res.status(500).send('Erro ao criptografar o texto.');
-    }
-});
-
-app.post('/hill/decrypt', (req, res) => {
-    const encryptedText = req.body.encryptedText;
-    const key = req.body.key;
-  
-    try {
-      // Converte a matriz chave fornecida como uma string em uma matriz numérica
-      const keyMatrix = key.split('\n').map(row => row.split(',').map(Number));
-      const decryptedText = decryptHill(encryptedText, keyMatrix);
-      res.render('hill.ejs', { encryptedText, decryptedText });
-    } catch (error) {
-      res.status(500).send('Erro ao descriptografar o texto.');
-    }
+    // Salve os dados atualizados de volta no arquivo JSON
+    fs.writeFile('./resources/pessoas.json', JSON.stringify(pessoas, null, 2), 'utf8', (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Erro ao escrever no arquivo JSON");
+            return;
+        }
+        
+        res.status(200).send(`Pessoa com ID ${idNumero} foi atualizada!`);
+    });
 });
 
 app.get('*:pagina',(req,res)=>{
