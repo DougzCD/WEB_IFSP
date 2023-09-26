@@ -4,6 +4,10 @@ const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
 
+const sequelize = new Sequelize(
+    
+);
+
 const app = express()
 
 const porta = 3000;
