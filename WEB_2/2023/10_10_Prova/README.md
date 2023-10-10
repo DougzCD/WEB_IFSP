@@ -16,7 +16,7 @@ Certifique-se de ter o Node.js e o MySQL instalados em seu sistema antes de pros
 1. Clone este repositório para o seu sistema.
 
 ```bash
-git clone https://github.com/seu-usuario/api-crud-aluno.git
+git clone https://github.com/DougzCD/api-crud-aluno.git
 ```
 
 2. Acesse o diretório do projeto.
